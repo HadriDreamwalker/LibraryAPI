@@ -7,6 +7,7 @@ var express = require('express');
 var router = express.Router();
 
 var Publisher = require('../../models/publisherModel.js');
+var Collection = require('../../models/collectionModel.js');
 
 var middleware = require('../../lib/middleware.js');
 
@@ -44,7 +45,6 @@ router.route('/:publisher_id')
 
 // Get the publisher
 .get(
-	middleware.checkParams.bind(this, "publisher_id"),
 	function(req, res) {
 		Publisher.findById(req.params.publisher_id, function(err, result) {
 				if(err)
@@ -57,13 +57,14 @@ router.route('/:publisher_id')
 
 // Update the publisher
 .put(
-	middleware.checkParams.bind(this, "publisher_id"),
 	function(req, res) {
 		Publisher.findById(req.params.publisher_id, function(err, result) {
 				if(err)
 					return res.send(500, err);
 
-				result.name = req.body.name;
+				result.name = req.body.name || result.name;
+				result.collections = req.body.collections || result.collections;
+
 				result.save(function(err) {
 						if(err)
 							res.send(500, err);
@@ -76,17 +77,19 @@ router.route('/:publisher_id')
 
 // Delete the publisher
 .delete(
-	middleware.checkParams.bind(this, "publisher_id"),
 	function(req, res) {
-		Publisher.remove({
-			_id: req.params.publisher_id
-		}, function(err, result) {
+		Collection.removePublisher(req.params.publisher_id, function(err) {
 			if(err)
 				return res.send(500, err);
+			Publisher.remove({
+				_id: req.params.publisher_id
+			}, function(err, result) {
+				if(err)
+					return res.send(500, err);
 
-			res.send(204);
-			}
-		);
+				res.send(204);
+			});
+		});
 	}
 );
 

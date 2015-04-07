@@ -34,7 +34,7 @@ router.route('/')
 			res.send(201, serie);
 		});
 	}
-)
+);
 
 // Routes that ends in /serie_id
 router.route('/:serie_id')
@@ -49,7 +49,6 @@ router.route('/:serie_id')
 })
 
 .put(
-	middleware.checkParams.bind(this, "serie_id"),
 	function(req, res) {
 		Serie.findById(req.params.serie_id, function(err, result) {
 			if(err)
@@ -67,7 +66,6 @@ router.route('/:serie_id')
 )
 
 .delete(
-	middleware.checkParams.bind(this, "serie_id"),
 	function(req, res) {
 		Serie.remove({
 			_id: req.params.serie_id

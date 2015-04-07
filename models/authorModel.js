@@ -10,6 +10,12 @@ var AuthorSchema = new Schema ({
 	name: {
 		type: String,
 		required: true
+	},
+	birthYear: {
+		type: Number
+	},
+	deathYear: {
+		type: Number
 	}
 });
 

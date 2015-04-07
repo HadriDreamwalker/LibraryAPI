@@ -8,13 +8,14 @@ var Schema = mongoose.Schema;
 
 var BookSchema = new Schema ({
 	name: {
-		type: String
+		type: String,
+		required: true
 	},
 	authors: [{
 		type: Schema.ObjectId,
 		ref: "Author"
 	}],
-	publisher: {
+	publishers: {
 		type: Schema.ObjectId,
 		ref: "Publisher"
 	},
@@ -30,7 +31,7 @@ var BookSchema = new Schema ({
 		type: Number,
 		min: 0
 	},
-	publishingYeah: {
+	publishingYear: {
 		type: Number,
 		min: 0
 	},

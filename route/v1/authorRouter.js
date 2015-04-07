@@ -42,7 +42,6 @@ router.route('/:author_id')
 
 // Get the author
 .get(
-	middleware.checkParams.bind(this, "author_id"),
 	function(req, res) {
 		Author.findById(req.params.author_id, function(err, result) {
 			if(err)
@@ -55,13 +54,17 @@ router.route('/:author_id')
 
 // Update the author
 .put(
-	middleware.checkParams.bind(this, "author_id"),
 	function(req, res) {
-		Author.findById(req.params.auteur_id, function(err, result) {
+		Author.findById(req.params.author_id, function(err, result) {
 			if(err)
 				return res.send(500, err);
+			if(!result)
+				return res.send(404, err);
 
-			result.name = req.body.name;
+			result.name = req.body.name || result.name;
+			result.birthYear = req.body.birthYear || result.birthYear;
+			result.deathYear = req.body.deathYear || result.deathYear;
+			
 			result.save(function(err) {
 				if(err)
 					return res.send(500, err);
@@ -74,7 +77,6 @@ router.route('/:author_id')
 
 // Delete the author
 .delete(
-	middleware.checkParams.bind(this, "author_id"),
 	function(req, res) {
 		Author.remove({
 			_id: req.params.author_id

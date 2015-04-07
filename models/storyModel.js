@@ -11,7 +11,7 @@ var StorySchema = new Schema ({
 		type: String,
 		required: true
 	},
-	Author: [{
+	authors: [{
 		type: Schema.ObjectId,
 		ref: "Author"
 	}],
