@@ -19,6 +19,10 @@ var SerieSchema = new Schema ({
 		type: Number,
 		default: 1,
 		min: 1
+	},
+	books: {
+		type: Schema.ObjectId,
+		ref: "Book"
 	}
 });
 

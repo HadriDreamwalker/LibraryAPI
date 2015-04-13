@@ -17,11 +17,7 @@ var StorySchema = new Schema ({
 	}],
 	type: {
 		type: String,
-		enum: ["Short", "Novel"]
-	},
-	serie: {
-		type: Schema.ObjectId,
-		ref: "Serie"
+		enum: ["short", "novel"]
 	}
 });
 

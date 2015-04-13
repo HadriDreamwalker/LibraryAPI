@@ -36,7 +36,8 @@ router.route('/')
 router.route('/:story_id')
 
 .get(function(req, res) {
-	Story.findById(req.params.story_id, function(err, result) {
+	var embed = req.param("embed") ? req.param("embed").split(",") : [];
+	Story.findById(req.params.story_id).populate(embed.join(" ")).exec(function(err, result) {
 		if(err)
 			return res.send(500, err)
 		res.send(200, result);

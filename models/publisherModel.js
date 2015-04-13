@@ -19,7 +19,15 @@ var PublisherSchema = new Schema ({
 });
 
 PublisherSchema.statics.addCollection = function(publishers_id, collection_id, callback) {
-	this.update({_id: publishers_id}, {$push:{collections: collection_id}}, {multi: true}, callback);
+	for(var i = 0; i < publishers_id.length; i++) {
+		var actualPublisherId = publishers_id[i]
+		this.update(
+			{_id: actualPublisherId},
+			{$push:{collections: collection_id}},
+			{multi: true},
+			callback
+		);
+	}
 }
 
 PublisherSchema.statics.replaceCollection = function(publisher_id, old_collection_id, new_collection_id, callback) {

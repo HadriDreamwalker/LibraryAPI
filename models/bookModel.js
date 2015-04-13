@@ -27,6 +27,10 @@ var BookSchema = new Schema ({
 		type: Schema.ObjectId,
 		ref: "Story"
 	}],
+	serie: {
+		type: Schema.ObjectId,
+		ref: "Serie"
+	},
 	tomeNum: {
 		type: Number,
 		min: 0

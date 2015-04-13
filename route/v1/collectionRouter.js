@@ -26,14 +26,14 @@ router.route('/')
 
 	.post(function(req, res) {
 		var collection = new Collection(req.body);
-		if(collection.publishers){
+		if(collection.publishers != 'undefined'){
 			Publisher.addCollection(collection.publishers, collection._id, function(err, result) {
 				if(err)
-					return res.send(500, err);
+					return res.send(503, err);
 
 				collection.save(function(err) {
 					if(err)
-						return res.send(500, err);
+						return res.send(501, err);
 					res.send(201, collection);
 				});	
 
@@ -41,7 +41,7 @@ router.route('/')
 		} else {
 			collection.save(function(err) {
 				if(err)
-					return res.send(500, err);
+					return res.send(502, err);
 				res.send(201, collection);
 			});
 		}
@@ -51,7 +51,7 @@ router.route('/')
 router.route('/:collection_id')
 
 .get(function(req, res) {
-	Collection.findById(req.params.collection_id, function(err, result) {
+	Collection.findById(req.params.collection_id).populate("publishers").exec(function(err, result) {
 		if(err)
 			return res.send(500, err);
 		res.send(200, result);
